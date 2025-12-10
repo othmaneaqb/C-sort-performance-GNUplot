@@ -166,4 +166,87 @@ void heap_sort(int *arr, int n)
         swap(&arr[0], &arr[i]);
         heapify(arr, i, 0);
     }
+
+
+
+///////// Partie othmane  -- Shell Sor -- Insertion Sort---Selection Sort
+#include <stdio.h>
+#include "sorts.h"
+
+/*
+ * swap()
+ * Swaps the values of two integers.
+ * Very common helper function for sorting algorithms.
+ */
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+/*
+ * insertionSort()
+ * Think of sorting your cards in your hand.
+ * You take one element and insert it where it belongs among the previous ones.
+ */
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];      // current element we want to place correctly
+        int j = i - 1;
+
+        // Move elements that are bigger than key one step forward
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        // Place key to its new correct position
+        arr[j + 1] = key;
+    }
+}
+
+/*
+ * selectionSort()
+ * Imagine picking the smallest number and putting it first,
+ * then picking the next smallest and putting it second… and so on.
+ */
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;  // assume the first unsorted element is the smallest
+
+        // Find the true smallest element
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        }
+
+        // Put the smallest element in its correct position
+        swap(&arr[i], &arr[minIndex]);
+    }
+}
+
+
+/*
+ * shellSort()
+ * A better version of insertion sort.
+ * Starts by comparing elements far apart, then gradually reduces the gap.
+ * This makes big mistakes disappear faster.
+ */
+void shellSort(int arr[], int n) {
+    // Start with a big gap, then reduce it each time
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+
+        // Perform a "gapped insertion sort"
+        for (int i = gap; i < n; i++) {
+            int temp = arr[i];
+            int j = i;
+
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+
+            arr[j] = temp; // place element correctly
+        }
+    }
 }
